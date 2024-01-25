@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ArduinoJson.h>
-#include <FS.h>
+#include <LittleFS.h>
 
 namespace Config {
     char mqtt_server[80] = "example.tld";

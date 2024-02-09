@@ -59,7 +59,7 @@ void setup() {
 
     delay(3000);
 
-    snprintf(identifier, sizeof(identifier), "VINDRIKTNING-%X", ESP.getChipId());
+    snprintf(identifier, sizeof(identifier), "apex-aqm2-%X", ESP.getChipId());
     snprintf(MQTT_TOPIC_AVAILABILITY, 127, "%s/%s/status", FIRMWARE_PREFIX, identifier);
     snprintf(MQTT_TOPIC_STATE, 127, "%s/%s/state", FIRMWARE_PREFIX, identifier);
     snprintf(MQTT_TOPIC_COMMAND, 127, "%s/%s/command", FIRMWARE_PREFIX, identifier);
@@ -132,7 +132,7 @@ void loop() {
 
     if (!mqttClient.connected() && currentMillis - lastMqttConnectionAttempt >= mqttConnectionInterval) {
         lastMqttConnectionAttempt = currentMillis;
-        printf("Reconnect mqtt\n");
+        printf("Reconnect mqtt - MQTT connection dropped or failed\n");
         mqttReconnect();
     }
 }
@@ -161,6 +161,8 @@ void setupWifi() {
         // This is most likely a logic error which could be fixed otherwise
         Config::load();
     }
+
+
 }
 
 void resetWifiSettingsAndReboot() {
@@ -219,7 +221,7 @@ void publishAutoConfig() {
     device["manufacturer"] = "Ikea";
     device["model"] = "VINDRIKTNING";
     device["name"] = identifier;
-    device["sw_version"] = "2021.08.0";
+    device["sw_version"] = "2024.01.1";
 
     autoconfPayload["device"] = device.as<JsonObject>();
     autoconfPayload["availability_topic"] = MQTT_TOPIC_AVAILABILITY;
